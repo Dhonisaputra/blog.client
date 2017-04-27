@@ -31,7 +31,6 @@ window.mainApp.run(['$rootScope', '$location', '$routeParams','$config', '$owner
         $rootScope.is_auth = 0;
         $rootScope.style_main_panel= 'width:100%';
         $rootScope.sidebar= false
-        console.log(current)
         if(next.$$route.need_login)
         {
             if($authorize.is_need_login())
