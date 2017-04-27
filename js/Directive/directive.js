@@ -155,6 +155,7 @@ window.mainApp
         link: function(scope, element, attrs) {
             $config.set_source(attrs.source);
             $.post('config/configuration.json', function(res){
+                res = JSON.parse(res);
                 $config.initialize_configuration(res);
                 $ads.get_ads_options(function(res){
                     if(!res[0])
