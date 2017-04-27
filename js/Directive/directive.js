@@ -155,6 +155,7 @@ window.mainApp
         link: function(scope, element, attrs) {
             $config.set_source(attrs.source);
             $.post('config/configuration.json', function(res){
+                console.log(res);
                 res = JSON.parse(res);
                 $config.initialize_configuration(res);
                 $ads.get_ads_options(function(res){
@@ -168,16 +169,7 @@ window.mainApp
                     }
                 })
             })
-           /* 
-            console.log(attrs.publicKey, $owner.public.get_public_key())
-            if(attrs.source == 'client')
-            {
-                if($owner.public.get_public_key() !== attrs.publicKey )
-                {
-                    console.info('re-credentials')
-                    $owner.public.set_public_key(attrs.publicKey)
-                }
-            }*/
+          
         }
     };
 }]);

@@ -14,8 +14,8 @@ window.mainApp
         {
             $.post($config.server_url('article/get'), {credential: $owner.credential(), where: where })
             .done(function(res){
+                console.log(res);
                 res = (!$config.double_server)? JSON.parse(res) : res;
-                console.log(res)
                 if(typeof callback == 'function'){callback(res)}
             })
             .fail(function(res){
