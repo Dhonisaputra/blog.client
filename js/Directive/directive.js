@@ -147,7 +147,7 @@ window.mainApp
         }
     };
 }])
-.directive('initializeBlog', ['$rootScope', '$owner', '$config', '$ads', function($rootScope, $owner, $config, $ads) {
+.directive('initializeBlog', ['$rootScope', '$owner', '$config', '$ads', '$tools', function($rootScope, $owner, $config, $ads, $tools) {
 
     return {
         restrict: 'A',
@@ -155,8 +155,11 @@ window.mainApp
         link: function(scope, element, attrs) {
             $config.set_source(attrs.source);
             $.post('config/configuration.json', function(res){
+                if($tools.isJson(res))
+                {
+                    res = JSON.parse(res);
+                }
                 console.log(res);
-                res = JSON.parse(res);
                 $config.initialize_configuration(res);
                 $ads.get_ads_options(function(res){
                     if(!res[0])

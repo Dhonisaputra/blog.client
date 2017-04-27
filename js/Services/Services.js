@@ -1,5 +1,5 @@
 window.mainApp
-.service('$posts', function ($config, $owner) {
+.service('$posts', function ($config, $owner, $tools) {
     this.set_data = function(data)
     {
         this.posts = data;
@@ -12,10 +12,11 @@ window.mainApp
     {
         if(!$config.double_server)
         {
+                console.log($owner.credential());
             $.post($config.server_url('article/get'), {credential: $owner.credential(), where: where })
             .done(function(res){
                 console.log(res);
-                res = (!$config.double_server)? JSON.parse(res) : res;
+                res = $tools.isJson(res)? JSON.parse(res) : res;
                 if(typeof callback == 'function'){callback(res)}
             })
             .fail(function(res){
@@ -47,7 +48,7 @@ window.mainApp
             $.post($config.server_url('article/insert_article'),  {credential: $owner.credential(), article: data })
             .done(function(res){
                 console.log(res);
-                res = JSON.parse(res);
+                res = $tools.isJson(res)? JSON.parse(res) : res;
                 if(typeof callback == 'function'){callback(res)}
             })
             .fail(function(res){
@@ -150,7 +151,7 @@ window.mainApp
         {
             $.post($config.server_url('article/get_categories'), {credential: $owner.credential() })
             .done(function(res){
-                res = JSON.parse(res)                
+                res = $tools.isJson(res)? JSON.parse(res) : res;
                 if(typeof callback == 'function'){callback(res)}
             })
             .fail(function(res){
@@ -173,7 +174,7 @@ window.mainApp
         {
             $.post($config.server_url('article/add_category'),  {credential: $owner.credential(), category: data })
             .done(function(res){
-                res = JSON.parse(res);
+                res = $tools.isJson(res)? JSON.parse(res) : res;
                 if(typeof callback == 'function'){callback(res)}
             })
             .fail(function(res){
@@ -310,7 +311,7 @@ window.mainApp
     {
         var credential = {
             source: $config.source,
-            administrator: Cookies.getJSON(global_configuration.namespace_admin),
+            administrator: Cookies.getJSON(global_configuration.namespace_admin)? Cookies.getJSON(global_configuration.namespace_admin) : {},
             public: Cookies.getJSON(global_configuration.namespace_public),
         }
         return credential; 
@@ -392,6 +393,15 @@ window.mainApp
             console.log(res)
             if(typeof fail == 'function'){fail(res)}
         })
+    }
+
+    this. isJson = function(str) {
+        try {
+            JSON.parse(str);
+        } catch (e) {
+            return false;
+        }
+        return true;
     }
 })
 .service('$pagination', function ($tools, $config, $rootScope) {
