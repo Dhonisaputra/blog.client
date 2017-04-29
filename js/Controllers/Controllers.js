@@ -303,6 +303,7 @@ window.mainApp
 
 .controller('controller.administrator.logout', function($scope, $owner, $posts, $routeParams){
 	$owner.reset_credential()
+	
 	window.location.reload();
 
 })

@@ -522,7 +522,7 @@ window.mainApp
     this.is_need_login = function()
     {
         var data = this.get_auth_data();
-        return ($config.source == 'panel' && !data.auth)? true : false;
+        return ($config.source == 'panel')? true : false;
     }
     this.is_login = function()
     {

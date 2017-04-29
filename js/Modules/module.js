@@ -31,9 +31,10 @@ window.mainApp.run(['$rootScope', '$location', '$routeParams','$config', '$owner
         $rootScope.is_auth = 0;
         $rootScope.style_main_panel= 'width:100%';
         $rootScope.sidebar= false
-        if(next.$$route.need_login)
+        var need_login = next.$$route.need_login;
+        if(need_login)
         {
-            if($authorize.is_need_login())
+            if(!$authorize.is_login())
             {
                 event.preventDefault();
                 $location.path('/login');
